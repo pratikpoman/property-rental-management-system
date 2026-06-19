@@ -72,10 +72,6 @@ A complete backend solution for Property & Facility Management.
 Use JWT Bearer Token:
 
 Authorization: Bearer <access_token>
-
-## API Base URL
-
-http://127.0.0.1:8000/api/v1
 """,
     docs_url="/docs",
     redoc_url="/redoc",
@@ -85,7 +81,7 @@ http://127.0.0.1:8000/api/v1
 # CORS Configuration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.allowed_origins_list,
+    allow_origins=["*"],  # For deployment
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -110,10 +106,11 @@ def root():
     return {
         "message": "Welcome to Property Rental Management System",
         "version": "1.0.0",
-        "swagger_ui": "http://127.0.0.1:8000/docs",
-        "redoc": "http://127.0.0.1:8000/redoc",
-        "openapi_json": "http://127.0.0.1:8000/openapi.json",
-        "api_base_url": "http://127.0.0.1:8000/api/v1"
+        "docs": "/docs",
+        "redoc": "/redoc",
+        "openapi_json": "/openapi.json",
+        "api_base_url": "/api/v1",
+        "status": "Live on Render"
     }
 
 # Health Check
@@ -125,12 +122,12 @@ def health_check():
         "version": "1.0.0"
     }
 
-# Application Startup Event
+# Startup Event
 @app.on_event("startup")
 async def startup_event():
     print("Property Rental Management System Started")
 
-# Application Shutdown Event
+# Shutdown Event
 @app.on_event("shutdown")
 async def shutdown_event():
     print("Property Rental Management System Stopped")
